@@ -68,3 +68,19 @@ def borrarId (id:str):
     raise HTTPException(status_code=404,detail=f'No existe id {id}')
 
 
+@app.put('/producto/{id}')
+def updateId (id:str, prod:Producto):
+    result = list(filter (lambda p: p.id == id, productos))
+
+    if len(result):
+        prodExiste = result[0]
+        prodExiste.id = prod.id
+        prodExiste.nombre = prod.nombre
+        prodExiste.precio_venta = prod.precio_venta
+        prodExiste.precio_compra = prod.precio_compra
+        prodExiste.proveedor = prod.proveedor
+
+        return f'Actualizado id {id},  OK producto {prodExiste}'
+
+    raise HTTPException(status_code=404, detail=f'Id {id}, no existe')
+
